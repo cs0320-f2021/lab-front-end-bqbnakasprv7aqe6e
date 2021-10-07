@@ -6,19 +6,21 @@
 
 function addTwoNumbers () {
     const val1 = document.querySelector('#first-input').value
-    const val2 = "?"
+    const val2 = document.querySelector('#second-input').value
     //TODO: get the value contained in the second input
     //TODO: check that neither input is the empty string (values retrieved from inputs are strings), if so return.
-
+    if (val1 === "" || val2 === "") {
+        return;
+    }
     // must parse values in order to add them, then convert back to a string
     // in order to input our result into the DOM
     document.querySelector('#total').innerHTML = `${parseInt(val1) + parseInt(val2)}` //backtick method!
 
 }
 
-//TODO: add an event listener (addTwoNumbers) to the "#plus-button" on "click
+//TODO: add an event listener (addTwoNumbers) to the "#compute-button" on "click"
 
-
+document.querySelector('#compute-button').addEventListener("click", addTwoNumbers)
 
 
 // Before starting part 2, your calculator should be able to successfully add two numbers,
@@ -40,12 +42,13 @@ function setUpShop () {
     for (let i = 0; i < cart_buttons.length; i++){
         const btn = cart_buttons[i]
         const item_id = btn.getAttribute("data-for")
-        const item = "?"
+        const item = document.getElementById(item_id)
         //TODO: get the item with id item_id
         //TODO: bind an event listener to the current button
         //  - the event listener should be a function that calls addToCart(item),
         //  hint: you can create an anonymous function inside of your call to
         //  addEventListener like this: () => <function body>
+        btn.addEventListener("click",() => addToCart(item))
     }
 }
 
@@ -56,7 +59,12 @@ function addToCart (item) {
     //  - if an item is already present in the cart, increment its quantity
     // -  if an item is not yet in the cart, set its quantity to 1
     //  - you can check if a given key is in an object like so : if (itemID in myCart) {..}
-
+    if (itemID in myCart) {
+        myCart[itemID] += 1
+    } else {
+        myCart[itemID] = 1
+    }
+    console.log("added to cart")
     displayCart()
 }
 
@@ -74,16 +82,17 @@ function displayCart () {
     // 2) when adding html to the cart element, it should include the itemid, quantity,
     //    and compound price (price x quantity).
     //      ex: item 1, quantity: 3, $30
-    //    the item desciption, quanity, and price, should be rapped in a paragraph (<p> </p>) so that
+    //    the item description, quantity, and price, should be rapped in a paragraph (<p> </p>) so that
     //    each item displays on a new line
 
     const displayItem = function (item) {
-        const price = "?"
-        const quantity = "?"
+        const price = item.getAttribute("data-price")
+        const quantity = myCart[item.id].toString()
         // remember that you can use the backtick method here (explained in the handout)
-        cart.innerHTML += "?"
-        total += "?"
-
+        const compound = parseInt(price) * parseInt(quantity)
+        cart.innerHTML += `<p> ${item.id}, quantity: ${quantity}, ${compound} </p>`
+        total += compound
+        console.log("total now is:" + total)
     }
 
     //TODO: call displayItem on each of the items in the myCart Object
@@ -97,18 +106,12 @@ function displayCart () {
     //      ex: myList.map(a => someFunction(a))
     //   remember that the keys of myCart are ~IDs~ of "store-item"s, not the DOM elements themselves',
     //   and that the displayItem function takes in an actual DOM element.
-
+    const cartElements = Object.keys(myCart)
+    cartElements.map(item_id => displayItem(document.getElementById(item_id)))
 
     //TODO: update the inner html of the element with ID #cart-total with the compounded total!
+    document.getElementById('cart-total').innerHTML = total.toString()
+
 }
 
 setUpShop()
-
-
-
-
-
-
-
-
-

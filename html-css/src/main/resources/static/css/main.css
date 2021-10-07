@@ -1,3 +1,7 @@
 input[type="number"] {
   width: 3em;
 }
+
+body {
+  background-color: #24aec6;
+}
