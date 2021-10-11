@@ -15,7 +15,6 @@ function addTwoNumbers () {
     // must parse values in order to add them, then convert back to a string
     // in order to input our result into the DOM
     document.querySelector('#total').innerHTML = `${parseInt(val1) + parseInt(val2)}` //backtick method!
-
 }
 
 //TODO: add an event listener (addTwoNumbers) to the "#compute-button" on "click"
@@ -64,7 +63,7 @@ function addToCart (item) {
     } else {
         myCart[itemID] = 1
     }
-    console.log("added to cart")
+    console.log(itemID + " added to cart")
     displayCart()
 }
 
@@ -89,10 +88,10 @@ function displayCart () {
         const price = item.getAttribute("data-price")
         const quantity = myCart[item.id].toString()
         // remember that you can use the backtick method here (explained in the handout)
-        const compound = parseInt(price) * parseInt(quantity)
-        cart.innerHTML += `<p> ${item.id}, quantity: ${quantity}, ${compound} </p>`
-        total += compound
-        console.log("total now is:" + total)
+        const compoundPrice = parseInt(price) * parseInt(quantity)
+        cart.innerHTML += `<p> ${item.id}, quantity: ${quantity}, ${compoundPrice} </p>`
+        total += compoundPrice
+        console.log("total is now: " + total)
     }
 
     //TODO: call displayItem on each of the items in the myCart Object
@@ -111,7 +110,6 @@ function displayCart () {
 
     //TODO: update the inner html of the element with ID #cart-total with the compounded total!
     document.getElementById('cart-total').innerHTML = total.toString()
-
 }
 
 setUpShop()
